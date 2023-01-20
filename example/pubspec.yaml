@@ -1,4 +1,4 @@
-name: receive_whatsapp_chat_example
+name: whatsalyzer
 description: Demonstrates how to use the receive_whatsapp_chat plugin.
 
 # The following line prevents the package from being accidentally published to
@@ -6,7 +6,7 @@ description: Demonstrates how to use the receive_whatsapp_chat plugin.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: '>=2.18.2 <3.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,6 +31,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   # Used to open the Whatsapp app.
   external_app_launcher: ^2.0.2
+  flex_color_scheme: ^6.1.2
+  loading_animation_widget: ^1.2.0+4
+  syncfusion_flutter_charts: ^20.4.44
 
 dev_dependencies:
   flutter_test:
@@ -53,7 +56,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+  assets:
+    -  assets/Images/whatsalyzerBackground.png
   # To add assets to your application, add an assets section, like this:
 #  assets:
 #    - assets/

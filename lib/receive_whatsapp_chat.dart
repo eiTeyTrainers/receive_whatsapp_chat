@@ -95,7 +95,10 @@ abstract class ReceiveWhatsappChat<T extends StatefulWidget> extends State<T> {
     if (!await IOSUtils.unzip(path)) throw Exception("Unzip failed");
     List<String> chat = await IOSUtils.readFile();
     chat.insert(0, path.split('/').last);
-    receiveChatContent(ChatAnalyzer.analyze(chat));
+    chat.join('\n');
+    String string = chat.join('\n');
+
+    receiveChatContent(_getChatName(chat.first),string);
   }
 
   /// Calling the [methodChannel.invokeMethod] and receive [List<String>] as a result.
@@ -106,10 +109,17 @@ abstract class ReceiveWhatsappChat<T extends StatefulWidget> extends State<T> {
     if (!isWhatsAppChatUrl(url)) throw Exception("Not a WhatsApp chat url");
     List<String> chat = List<String>.from(await methodChannel
         .invokeMethod("analyze", <String, dynamic>{"data": url}));
-
-    receiveChatContent(ChatAnalyzer.analyze(chat, _getImagePaths(shared)));
+    String string = chat.join('\n');
+    
+    receiveChatContent(_getChatName(chat.first),string);
   }
-
+  static String _getChatName(String name) {
+    if (Platform.isAndroid) {
+      return name.split('.txt').first.split('WhatsApp Chat with ').last;
+    } else {
+      return name.split('.zip').first.split('WhatsApp Chat - ').last;
+    }
+  }
   List<String>? _getImagePaths(Share shared) {
     if (!_allowReceiveWithMedia) return null;
     List<String> ret = [];
@@ -134,5 +144,5 @@ abstract class ReceiveWhatsappChat<T extends StatefulWidget> extends State<T> {
   }
 
   /// Abstract function calling after we receive and analyze the chat
-  void receiveChatContent(ChatContent chatContent);
+  void receiveChatContent(String name,String string);
 }
